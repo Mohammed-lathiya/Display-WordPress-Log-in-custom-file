@@ -1,0 +1,44 @@
+<?php
+
+//Function to generate Wordpress logs
+function wpbc_custom_wordpress_log($str, $type = 3){
+	$d = date("j-M-Y H:i:s.u e");
+  	$now = DateTime::createFromFormat('U.u', microtime(true));
+  	$d = $now->format("j-M-Y H:i:s.u e");
+  	error_log("[$d] $str\n", $type, BP_CHILD_THEME_DIR . '/eit-api.log');
+}
+
+//Example: 
+$log_user = "User - Course List: ";
+wpbc_custom_wordpress_log($log_user . 'call started');
+
+
+//................................................................................................
+
+
+$log  = "User: ".$_SERVER['REMOTE_ADDR'].' - '.date("F j, Y, g:i a").PHP_EOL.
+"Function: pjActionSetDateTimes".PHP_EOL.
+"Home page booking date from ".$from_arr['iso_date_time'].PHP_EOL.
+"Home page booking date to ".$to_arr['iso_date_time'].PHP_EOL.
+"All data: ".json_encode($_POST).PHP_EOL.
+"-------------------------".PHP_EOL;
+//Save string to log, use FILE_APPEND to append.
+file_put_contents('./log_'.date("j.n.Y").'.log', $log, FILE_APPEND);
+
+
+
+//................................................................................................
+
+
+$log_text .= '\n\n File name : '.$basename.' [END] \n\n';
+$log_text .= '\n\n File key : '.$file_to_upload.' [END] \n\n';
+
+file_put_contents('file_upload_logs.txt', $txt.PHP_EOL , FILE_APPEND | LOCK_EX);
+
+$file = fopen($uploads['basedir']."/Childtheme_custom_logs.log","a");
+fwrite($file, "\n" . date('Y-m-d h:i:s') . " :: " . $log_text); 
+fclose($file);
+
+
+
+?>
